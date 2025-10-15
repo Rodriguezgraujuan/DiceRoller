@@ -64,6 +64,12 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
         5 -> R.drawable.dice_5
         else -> R.drawable.dice_6
     }
+    var total=""
+    if (lastButton==2){
+        total="Puntos de la tirada: ${result1+result2}"
+    }else if(lastButton==1){
+        total="Puntos de la tirada: $result1"
+    }
     Column(modifier= Modifier.fillMaxSize().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
         Row (verticalAlignment = Alignment.CenterVertically){
             Image(
@@ -90,6 +96,9 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
             Button(onClick = { result2 = (1..6).random(); result1 = (1..6).random();lastButton = 2 }) {
                 Text(stringResource(R.string.roll2))
             }
+        }
+        Row (verticalAlignment = Alignment.CenterVertically){
+            Text(text = total)
         }
     }
 }
