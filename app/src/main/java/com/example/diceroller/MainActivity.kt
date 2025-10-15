@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.example.diceroller.ui.theme.DiceRollerTheme
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.alpha
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity() {
 fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
     var result1 by remember { mutableIntStateOf(1) }
     var result2 by remember { mutableIntStateOf(1) }
+    var lastButton by remember { mutableStateOf(0) }
     val imageResource1 = when (result1) {
         1 -> R.drawable.dice_1
         2 -> R.drawable.dice_2
@@ -75,15 +77,17 @@ fun DiceWithButtonAndImage(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(imageResource2),
                 contentDescription = "1",
+                modifier = Modifier.alpha(if (lastButton == 1) 0.3f else 1f)
+
             )
             Spacer(modifier = Modifier.height(16.dp))
 
         }
         Row (verticalAlignment = Alignment.CenterVertically){
-            Button(onClick = { result1 = (1..6).random() }) {
+            Button(onClick = { result1 = (1..6).random();lastButton = 1 }) {
                 Text(stringResource(R.string.roll1))
             }
-            Button(onClick = { result2 = (1..6).random(); result1 = (1..6).random() }) {
+            Button(onClick = { result2 = (1..6).random(); result1 = (1..6).random();lastButton = 2 }) {
                 Text(stringResource(R.string.roll2))
             }
         }
